@@ -1,0 +1,33 @@
+{
+  "name": "swagger-wiremock-node-codegen",
+  "version": "1.0.0",
+  "description": "Create wiremock files and mappping from swagger file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier \"**/*.{js,json,md,scss}\"",
+    "standard": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nadzir/swagger-wiremock-node-codegen.git"
+  },
+  "keywords": [
+    "swagger",
+    "wiremock",
+    "stub",
+    "mock"
+  ],
+  "author": "Nadzir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nadzir/swagger-wiremock-node-codegen/issues"
+  },
+  "homepage": "https://github.com/nadzir/swagger-wiremock-node-codegen#readme",
+  "devDependencies": {
+    "standard": "^11.0.1"
+  },
+  "dependencies": {
+    "js-yaml": "^3.11.0"
+  }
+}
