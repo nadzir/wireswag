@@ -2,11 +2,10 @@
   "name": "swagger-wiremock-node-codegen",
   "version": "1.0.0",
   "description": "Create wiremock files and mappping from swagger file",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier \"**/*.{js,json,md,scss}\"",
-    "standard": "standard"
+    "standard": "standard --fix"
   },
   "repository": {
     "type": "git",
