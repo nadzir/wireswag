@@ -28,6 +28,7 @@
     "standard": "^11.0.1"
   },
   "dependencies": {
-    "js-yaml": "^3.11.0"
+    "js-yaml": "^3.11.0",
+    "lodash": "^4.17.10"
   }
 }
