@@ -9,9 +9,11 @@ export const start = async (swaggerFile, servername) => {
 
   const swaggerEndpoints = getAllEndpoints(swaggerFile)
   const parseEndpoints = mapSwaggerToRequest(swaggerEndpoints)
+  // const res = await callEndpoint(servername, parseEndpoints[0][0])
+  // console.log(res)
   const pCallEndpoints = parseEndpoints.map(async (endpoint) =>
     callEndpoint(servername, endpoint[0])
   )
   const response = await Promise.all(pCallEndpoints)
-  console.log('response', response)
+  console.log('response', JSON.stringify(response, null, 2))
 }

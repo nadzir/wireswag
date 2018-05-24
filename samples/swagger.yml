@@ -31,7 +31,7 @@ paths:
           required: true
           type: number
           format: double
-          wiremock-input: 
+          paramInput: 
             type: number
             values: 
                 - 1
