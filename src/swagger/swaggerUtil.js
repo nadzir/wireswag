@@ -6,8 +6,9 @@ export const getAllEndpoints = (swaggerFile) => {
     var swaggerDoc = yaml.safeLoad(fs.readFileSync(swaggerFile, 'utf8'))
     const paths = swaggerDoc.paths
 
-    const testpath = paths['/products']
-    console.log(JSON.stringify(testpath))
+    // const testpath = paths['/products']
+    // return testpath
+    return paths
   } catch (err) {
     console.error(err)
   }
