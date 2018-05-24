@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "standard": "standard --fix",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon --exec babel-node -- src/index.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/nadzir/swagger-wiremock-node-codegen#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "standard": "^11.0.1"
   },
   "dependencies": {
