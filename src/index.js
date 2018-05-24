@@ -2,8 +2,10 @@
 const isEmpty = require('lodash/isEmpty')
 const yaml = require('js-yaml')
 const fs = require('fs')
+const request = require('superagent')
 
 const swaggerFile = './samples/swagger.yml'
+const serverHost = 'localhost:4000'
 
 /**
  * returns an object with 4 arrays
@@ -29,14 +31,15 @@ const getEndpoints = () => {
     // Iterate though each end points
     Object.keys(paths).forEach((key) => {
       const endpoint = paths[key]
-      const path = key
 
       // Iterate through each method
       Object.keys(endpoint).forEach((method) => {
-        if (method === 'get') gets.push(path)
-        else if (method === 'post') posts.push(path)
-        else if (method === 'delete') deletes.push(path)
-        else if (method === 'put') puts.push(path)
+        const api = {}
+        api[key] = endpoint[method].parameters
+        if (method === 'get') gets.push(api)
+        else if (method === 'post') posts.push(api)
+        else if (method === 'delete') deletes.push(api)
+        else if (method === 'put') puts.push(api)
       })
     }, [])
 
@@ -74,6 +77,31 @@ const addVariable = (endpoints) => {
   })
 }
 
+const writeFile = (content) => {
+  fs.writeFileSync('./output/variable.json', content)
+}
+
+const executeCurl = (endpoint) => {
+  console.log(`${serverHost}${endpoint}`)
+  api = endpoint
+  request
+    .get(`${serverHost}${endpoint}`)
+    // .query({ action: 'edit', city: 'London' }) // query string
+    .end((err, res) => {
+      if (err) console.error(err)
+      console.log(res.status)
+    })
+}
+
 const endpoints = getEndpoints()
-const endpointsWithVariable = addVariable(endpoints)
-console.log(JSON.stringify(endpointsWithVariable, null, 2))
+// Get only GET endpoints
+const getEndPoints = endpoints.gets
+// Get only Alias for testing
+const testingEndpoint = getEndPoints[0]
+console.log(JSON.stringify(testingEndpoint))
+
+// Create curl command
+executeCurl(testingEndpoint)
+// const endpointsWithVariable = addVariable(endpoints)
+// const output = JSON.stringify(endpointsWithVariable, null, 2)
+// writeFile(output)
