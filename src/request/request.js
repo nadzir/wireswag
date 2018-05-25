@@ -10,9 +10,6 @@ export const callEndpoint = (servername, endpoint) => {
     // Handle request
     const params = endpoint.param
 
-    // // Get Query param
-    // const queryParams = getQueryParams(params)
-
     // Get Path param
     // All will be the same length
     const { queryParams, pathParams } = getParamsValues(params, wireSwagModel)
@@ -30,18 +27,20 @@ export const callEndpoint = (servername, endpoint) => {
 const executeCallGet = (url, query, path) => {
   const urlWithPathValue = replaceUrlParam(url, path)
   return new Promise((resolve, reject) => {
-    request
-      .get(urlWithPathValue)
-      // .query(query)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) console.error()
-        resolve({
-          query,
-          path: path,
-          status: res.status
-        })
+    const req = request.get(urlWithPathValue)
+
+    if (query) req.query(query)
+
+    req.set('Accept', 'application/json')
+    req.end((err, res) => {
+      if (err) console.error()
+      // console.log(res)
+      resolve({
+        query,
+        path: path,
+        status: res.status
       })
+    })
   })
 }
 

@@ -48,7 +48,7 @@ const findLongestArray = (arr1, arr2) => {
 const padArray = (arr, length) => {
   if (arr.length < length) {
     const lengthDiff = length - arr.length
-    arr.push(Array(lengthDiff).fill(null))
+    return arr.concat(Array(lengthDiff).fill(null))
   }
   return arr
 }
