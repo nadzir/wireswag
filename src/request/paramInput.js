@@ -1,15 +1,11 @@
 import get from 'lodash/get'
+import { X_WIRESWAG_INPUT } from '../mapping/constants'
 
-export const getInput = (param) => {
-  const paramInput = param.paramInput
-  const type = get(paramInput, 'type')
+export const getInput = (param, wireSwagModel) => {
+  const operationId = param[X_WIRESWAG_INPUT]
 
-  switch (type) {
-    case 'number': return NumberInput(paramInput)
-    default: return []
-  }
-}
+  const model = require(`../../input/controllers/${wireSwagModel}.js`)
+  const values = model[operationId]()
 
-const NumberInput = (input) => {
-  return [].concat(input.values)
+  return [].concat(values)
 }

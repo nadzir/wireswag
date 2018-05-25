@@ -1,3 +1,10 @@
 export const PARAM = {
-  QUERY: 'query'
+  QUERY: 'query',
+  PATH: 'path'
+}
+
+export const METHOD = {
+  GET: 'get',
+  POST: 'post',
+  DELETE: 'delete'
 }

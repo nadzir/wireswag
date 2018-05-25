@@ -9,11 +9,18 @@ export const start = async (swaggerFile, servername) => {
 
   const swaggerEndpoints = getAllEndpoints(swaggerFile)
   const parseEndpoints = mapSwaggerToRequest(swaggerEndpoints)
+
   // const res = await callEndpoint(servername, parseEndpoints[0][0])
   // console.log(res)
-  const pCallEndpoints = parseEndpoints.map(async (endpoint) =>
-    callEndpoint(servername, endpoint[0])
-  )
+  const pCallEndpoints = []
+  parseEndpoints.forEach((endpoint) => {
+    // Each endpoint have multiple method
+    endpoint.forEach(async (eachEndpointMethod) => {
+      pCallEndpoints.push(callEndpoint(servername, eachEndpointMethod))
+    })
+  })
+
   const response = await Promise.all(pCallEndpoints)
+
   console.log('response', JSON.stringify(response, null, 2))
 }
