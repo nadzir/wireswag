@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { getQueryParams, getParamsValues } from '../request'
+import { getParamsValues } from '../request'
 
 export const callEndpoint = (servername, endpoint) => {
   return new Promise(async (resolve, reject) => {

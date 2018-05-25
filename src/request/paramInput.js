@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import { X_WIRESWAG_INPUT } from '../mapping/constants'
 
 export const getInput = (param, wireSwagModel) => {

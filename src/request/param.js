@@ -1,13 +1,4 @@
 import { PARAM, getInput } from '../request'
-import fill from 'lodash/fill'
-
-// export const getQueryParams = (params) => {
-//   return getParams(params, PARAM.QUERY)
-// }
-
-// export const getPathParams = (params) => {
-//   return getParams(params, PARAM.PATH)
-// }
 
 export const getParamsValues = (params, wireSwagModel) => {
   // Get all the various methods in arrays
