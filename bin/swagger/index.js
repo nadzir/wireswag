@@ -4,14 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _swaggerUtil = require('./swaggerUtil');
+var _swagger = require('./swagger');
 
-Object.keys(_swaggerUtil).forEach(function (key) {
+Object.keys(_swagger).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _swaggerUtil[key];
+      return _swagger[key];
     }
   });
 });

@@ -1,23 +1,17 @@
-import isEmpty from 'lodash/isEmpty'
-import { getAllEndpoints } from './swagger'
+import { getEndpoints, parseEndpoints } from './swagger'
 import { callEndpoint } from './request'
-import { mapSwaggerToRequest } from './mapping'
 
 export const start = async (swaggerFile, servername) => {
-  if (isEmpty(swaggerFile)) console.error('Swagger File is empty')
-  if (isEmpty(servername)) console.error('Server Name is empty')
+  console.info(`Wireswag: Reading swagger file : ${swaggerFile}`)
+  const endpoints = getEndpoints(swaggerFile)
+  const endpointsCount = Object.keys(endpoints).length
+  console.info(`Wireswag: Total endpoints captured : ${endpointsCount}`)
 
-  const swaggerEndpoints = getAllEndpoints(swaggerFile)
-  const parseEndpoints = mapSwaggerToRequest(swaggerEndpoints)
+  const parsedEndpoints = parseEndpoints(endpoints)
+  const parsedEndpointsCount = Object.keys(parsedEndpoints).length
+  console.info(`Wireswag: Total api to be called: ${parsedEndpointsCount}`)
 
-  const pCallEndpoints = []
-  parseEndpoints.forEach((endpoint) => {
-    // Each endpoint have multiple method
-    endpoint.forEach(async (eachEndpointMethod) => {
-      pCallEndpoints.push(callEndpoint(servername, eachEndpointMethod))
-    })
-  })
-
+  const pCallEndpoints = parsedEndpoints.map(async (endpoint) => callEndpoint(servername, endpoint))
   const response = await Promise.all(pCallEndpoints)
   console.log('response', JSON.stringify(response, null, 2))
 }

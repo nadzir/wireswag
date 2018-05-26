@@ -1,16 +1,13 @@
 #!/usr/bin/env node
 import { start } from './main.js'
 import program from 'commander'
+import { setup, validateMandatoryInput } from './cli'
 
-program
-  .version('1.0.0')
-  .option('-s, --swagger [file]', 'swagger files')
-  .option('-g, --server [servername]', 'servername')
-  .option('-w, --wiremock', 'wiremock')
-  .parse(process.argv)
+setup(program)
 
-if (!program.swagger) console.warn('please specify a swagger file')
-else if (!program.server) console.warn('please specify a servername')
-else {
+if (validateMandatoryInput(program)) {
+  console.info('Wireswag: Begin wiring swag...')
   start(program.swagger, program.server)
+} else {
+  console.error('Stopping due to errors.')
 }

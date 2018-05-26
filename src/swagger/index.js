@@ -1,1 +1,1 @@
-export * from './swaggerUtil'
+export * from './swagger'

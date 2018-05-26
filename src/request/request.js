@@ -7,42 +7,38 @@ export const callEndpoint = (servername, endpoint) => {
     const method = endpoint.method
     const url = `${servername}${api}`
     const wireSwagModel = endpoint.wireSwagModel
-
-    // Handle request
     const params = endpoint.param
 
-    // Get Path param
-    // All will be the same length
+    // // All will be the same length
     const { queryParams, pathParams } = getParamsValues(params, wireSwagModel)
 
-    const pCall = queryParams.map(async (queryParam, index) => {
-      const pathParam = pathParams[index]
-      return executeCallGet(url, queryParam, pathParam)
-    })
-    executeCallGet(url)
-
-    const response = await Promise.all(pCall)
-    console.log(response)
-    resolve({url, method, response, test: 'test'})
+    // If parameter exists, then execute with each different values
+    if (queryParams.length > 0) {
+      const pCall = queryParams.map(async (queryParam, index) => {
+        const pathParam = pathParams[index]
+        return executeCallGet(url, method, queryParam, pathParam)
+      })
+      resolve(await Promise.all(pCall))
+    } else {
+      resolve(executeCallGet(url, method))
+    }
   })
 }
 
-const executeCallGet = (url, query, path) => {
+const executeCallGet = (url, method, query, path) => {
   const urlWithPathValue = path ? replaceUrlParam(url, path) : url
   return new Promise((resolve, reject) => {
     const req = request.get(urlWithPathValue)
-
     if (query) req.query(query)
-
     req.set('Accept', 'application/json')
     req.end((err, res) => {
-      if (err) console.error(err)
+      if (err) console.error()
       return resolve({
-        test: 'test'
-        // query,
-        // path: path,
-        // status: res.status,
-        // body: res.body
+        url: urlWithPathValue,
+        method,
+        query,
+        path,
+        status: res.status
       })
     })
   })

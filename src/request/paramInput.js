@@ -1,4 +1,4 @@
-import { X_WIRESWAG_INPUT } from '../mapping/constants'
+import { X_WIRESWAG_INPUT } from '../swagger/constants'
 
 export const getInput = (param, wireSwagModel) => {
   const operationId = param[X_WIRESWAG_INPUT]

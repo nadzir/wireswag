@@ -7,10 +7,15 @@ var _commander = require('commander');
 
 var _commander2 = _interopRequireDefault(_commander);
 
+var _cli = require('./cli');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_commander2.default.version('1.0.0').option('-s, --swagger [file]', 'swagger files').option('-g, --server [servername]', 'servername').option('-w, --wiremock', 'wiremock').parse(process.argv);
+(0, _cli.setup)(_commander2.default);
 
-if (!_commander2.default.swagger) console.warn('please specify a swagger file');else if (!_commander2.default.server) console.warn('please specify a servername');else {
+if ((0, _cli.validateMandatoryInput)(_commander2.default)) {
+  console.info('Wireswag: Begin wiring swag...');
   (0, _main.start)(_commander2.default.swagger, _commander2.default.server);
+} else {
+  console.error('Stopping due to errors.');
 }

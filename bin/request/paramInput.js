@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getInput = undefined;
 
-var _constants = require('../mapping/constants');
+var _constants = require('../swagger/constants');
 
 const getInput = exports.getInput = (param, wireSwagModel) => {
   const operationId = param[_constants.X_WIRESWAG_INPUT];

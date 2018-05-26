@@ -19,29 +19,30 @@ const callEndpoint = exports.callEndpoint = (servername, endpoint) => {
   return new Promise((() => {
     var _ref = _asyncToGenerator(function* (resolve, reject) {
       const api = endpoint.api;
+      const method = endpoint.method;
       const url = `${servername}${api}`;
       const wireSwagModel = endpoint.wireSwagModel;
-
-      // Handle request
       const params = endpoint.param;
 
-      // Get Path param
-      // All will be the same length
+      // // All will be the same length
       const { queryParams, pathParams } = (0, _request.getParamsValues)(params, wireSwagModel);
 
-      const pCall = queryParams.map((() => {
-        var _ref2 = _asyncToGenerator(function* (queryParam, index) {
-          const pathParam = pathParams[index];
-          return executeCallGet(url, queryParam, pathParam);
-        });
+      // If parameter exists, then execute with each different values
+      if (queryParams.length > 0) {
+        const pCall = queryParams.map((() => {
+          var _ref2 = _asyncToGenerator(function* (queryParam, index) {
+            const pathParam = pathParams[index];
+            return executeCallGet(url, method, queryParam, pathParam);
+          });
 
-        return function (_x3, _x4) {
-          return _ref2.apply(this, arguments);
-        };
-      })());
-
-      const response = yield Promise.all(pCall);
-      resolve({ url, response });
+          return function (_x3, _x4) {
+            return _ref2.apply(this, arguments);
+          };
+        })());
+        resolve((yield Promise.all(pCall)));
+      } else {
+        resolve(executeCallGet(url, method));
+      }
     });
 
     return function (_x, _x2) {
@@ -50,20 +51,19 @@ const callEndpoint = exports.callEndpoint = (servername, endpoint) => {
   })());
 };
 
-const executeCallGet = (url, query, path) => {
-  const urlWithPathValue = replaceUrlParam(url, path);
+const executeCallGet = (url, method, query, path) => {
+  const urlWithPathValue = path ? replaceUrlParam(url, path) : url;
   return new Promise((resolve, reject) => {
     const req = _superagent2.default.get(urlWithPathValue);
-
     if (query) req.query(query);
-
     req.set('Accept', 'application/json');
     req.end((err, res) => {
       if (err) console.error();
-      // console.log(res)
-      resolve({
+      return resolve({
+        url: urlWithPathValue,
+        method,
         query,
-        path: path,
+        path,
         status: res.status
       });
     });
