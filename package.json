@@ -1,5 +1,5 @@
 {
-  "name": "swagger-wiremock-node-codegen",
+  "name": "wireswag",
   "version": "1.0.0",
   "description": "Create wiremock files and mappping from swagger file",
   "main": "src/index.js",
