@@ -1,4 +1,4 @@
-# SWAGGER - WIREMOCK - NODE - CODEGEN 
+# WIRESWAG
 
 Create wiremock files and mapping from a swagger file
 
@@ -10,7 +10,12 @@ Create wiremock files and mapping from a swagger file
 
 ## Task
 
-- [ ] Read from swagger file
+- [x] Read from swagger file
+- [x] Parse GET endpoint from swagger
+- [x] Call GET endpoint
+- [x] Generate input values for query and path parameters
+- [ ] Construct a command-line interface
+
 
 ## Support
 
