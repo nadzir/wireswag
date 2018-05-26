@@ -12,7 +12,7 @@
     "wireswag": "nodemon --exec babel-node -- src/index.js",
     "dev": "yarn run wireswag -s ./samples/swagger.yml -g localhost:4000",
     "clean": "rm -rf ./bin",
-    "build": "yarn run clean & babel src -d bin"
+    "build": "babel src -d bin"
   },
   "repository": {
     "type": "git",

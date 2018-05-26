@@ -4,6 +4,7 @@ import { getParamsValues } from '../request'
 export const callEndpoint = (servername, endpoint) => {
   return new Promise(async (resolve, reject) => {
     const api = endpoint.api
+    const method = endpoint.method
     const url = `${servername}${api}`
     const wireSwagModel = endpoint.wireSwagModel
 
@@ -18,14 +19,16 @@ export const callEndpoint = (servername, endpoint) => {
       const pathParam = pathParams[index]
       return executeCallGet(url, queryParam, pathParam)
     })
+    executeCallGet(url)
 
     const response = await Promise.all(pCall)
-    resolve({url, response})
+    console.log(response)
+    resolve({url, method, response, test: 'test'})
   })
 }
 
 const executeCallGet = (url, query, path) => {
-  const urlWithPathValue = replaceUrlParam(url, path)
+  const urlWithPathValue = path ? replaceUrlParam(url, path) : url
   return new Promise((resolve, reject) => {
     const req = request.get(urlWithPathValue)
 
@@ -33,12 +36,13 @@ const executeCallGet = (url, query, path) => {
 
     req.set('Accept', 'application/json')
     req.end((err, res) => {
-      if (err) console.error()
-      // console.log(res)
-      resolve({
-        query,
-        path: path,
-        status: res.status
+      if (err) console.error(err)
+      return resolve({
+        test: 'test'
+        // query,
+        // path: path,
+        // status: res.status,
+        // body: res.body
       })
     })
   })
