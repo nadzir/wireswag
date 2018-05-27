@@ -1,6 +1,6 @@
 {
   "name": "wireswag",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Create wiremock files and mappping from swagger file",
   "main": ".bin/index.js",
   "bin": {
