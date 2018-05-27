@@ -14,7 +14,9 @@
     "start-mock-server": "json-server --watch ./db/mock.json -p 4000",
     "dev": "yarn run wireswag -s ./samples/swagger.yml -g localhost:4000",
     "clean": "rm -rf ./.bin",
-    "build": "babel src -d ./.bin"
+    "build": "babel src -d ./.bin",
+    "moxx:start": "moxx --proxy localhost:4000 --record",
+    "moxx": "moxx --proxy localhost:4000"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "jest": "^23.0.0",
+    "moxx": "^0.4.2",
     "parcel": "^1.8.1",
     "standard": "^11.0.1"
   },
