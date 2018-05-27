@@ -14,7 +14,9 @@ Create wiremock files and mapping from a swagger file
 - [x] Parse GET endpoint from swagger
 - [x] Call GET endpoint
 - [x] Generate input values for query and path parameters
-- [ ] Construct a command-line interface
+- [x] Construct a command-line interface
+- [ ] Improve code coverage
+- [ ] Add Post endpoint with body parameters
 
 
 ## Support
