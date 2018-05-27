@@ -7,10 +7,10 @@ exports.getParamsValues = undefined;
 
 var _request = require('../request');
 
-const getParamsValues = exports.getParamsValues = (params, wireSwagModel) => {
+const getParamsValues = exports.getParamsValues = (params, wireSwagModel, wireSwagInput) => {
   // Get all the various methods in arrays
-  const queryParams = getParamsFromMethod(params, wireSwagModel, _request.PARAM.QUERY);
-  const pathParams = getParamsFromMethod(params, wireSwagModel, _request.PARAM.PATH);
+  const queryParams = getParamsFromMethod(params, wireSwagModel, wireSwagInput, _request.PARAM.QUERY);
+  const pathParams = getParamsFromMethod(params, wireSwagModel, wireSwagInput, _request.PARAM.PATH);
 
   // Determine the longest arrays
   const longestArrayLength = findLongestArray(queryParams, pathParams);
@@ -24,14 +24,14 @@ const getParamsValues = exports.getParamsValues = (params, wireSwagModel) => {
   };
 };
 
-const getParamsFromMethod = (params, wireSwagModel, method) => {
+const getParamsFromMethod = (params, wireSwagModel, wireSwagInput, method) => {
   // Arr to return
   const queryArr = [];
   params
   // Filter query param
   .filter(param => param.in === method).forEach(param => {
     // Get the param values
-    const values = (0, _request.getInput)(param, wireSwagModel);
+    const values = (0, _request.getInput)(param, wireSwagModel, wireSwagInput);
     // Insert into arr for each values
     values.forEach(value => {
       const query = {};

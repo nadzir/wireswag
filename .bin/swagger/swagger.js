@@ -44,11 +44,15 @@ const parseEndpoints = exports.parseEndpoints = endpoints => {
       const info = endpointInfo[method];
       const param = info.parameters || [];
 
+      // Get the wire-swag-operationId
+      const wireSwagInput = info[_constants.X_WIRESWAG_INPUT] || method;
+
       // Add into array
       endpointsArr.push({
         api: endpoint,
         method,
         wireSwagModel,
+        wireSwagInput,
         param
       });
     });

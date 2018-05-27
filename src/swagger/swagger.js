@@ -1,5 +1,5 @@
 import { METHOD } from '../request'
-import { X_WIRESWAG_MODEL } from './constants'
+import { X_WIRESWAG_MODEL, X_WIRESWAG_INPUT } from './constants'
 
 const yaml = require('js-yaml')
 const fs = require('fs')
@@ -36,11 +36,15 @@ export const parseEndpoints = (endpoints) => {
       const info = endpointInfo[method]
       const param = info.parameters || []
 
+      // Get the wire-swag-operationId
+      const wireSwagInput = info[X_WIRESWAG_INPUT] || method
+
       // Add into array
       endpointsArr.push({
         api: endpoint,
         method,
         wireSwagModel,
+        wireSwagInput,
         param
       })
     })

@@ -34,6 +34,7 @@ paths:
         - cars
       description: Returns a car
       operationId: getCar
+      x-wireswag-operationId: getCar
       parameters:
         - in: path
           name: id
@@ -41,7 +42,6 @@ paths:
           required: true
           type: string
           x-example: 1aa2313
-          x-wireswag-operationId: getCarId
       produces:
         - application/json
       responses:

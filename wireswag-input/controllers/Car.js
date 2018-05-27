@@ -1,3 +1,3 @@
-export const getCarId = () => {
-  return '123'
+export const getCar = () => {
+  return {query: {id: 123}, path: {}, body: {}}
 }

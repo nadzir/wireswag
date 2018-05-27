@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { getParamsValues } from '../request'
+import { getParams } from './params'
 
 export const callEndpoint = (servername, endpoint) => {
   return new Promise(async (resolve, reject) => {
@@ -7,32 +7,27 @@ export const callEndpoint = (servername, endpoint) => {
     const method = endpoint.method
     const url = `${servername}${api}`
     const wireSwagModel = endpoint.wireSwagModel
-    const params = endpoint.param
+    const wireSwagInput = endpoint.wireSwagInput
 
     // // All will be the same length
-    const { queryParams, pathParams } = getParamsValues(params, wireSwagModel)
+    const params = getParams(wireSwagModel, wireSwagInput)
 
-    // If parameter exists, then execute with each different values
-    if (queryParams.length > 0) {
-      const pCall = queryParams.map(async (queryParam, index) => {
-        const pathParam = pathParams[index]
-        return executeCallGet(url, method, queryParam, pathParam)
-      })
-      resolve(await Promise.all(pCall))
-    } else {
-      resolve(executeCallGet(url, method))
-    }
+    const pCall = params.map(async (param) => {
+      const { query, path, body } = param
+      return executeCallGet(url, method, query, path, body)
+    })
+    resolve(await Promise.all(pCall))
   })
 }
 
-const executeCallGet = (url, method, query, path) => {
+const executeCallGet = (url, method, query, path, body) => {
   const urlWithPathValue = path ? replaceUrlParam(url, path) : url
   return new Promise((resolve, reject) => {
     const req = request.get(urlWithPathValue)
     if (query) req.query(query)
     req.set('Accept', 'application/json')
     req.end((err, res) => {
-      if (err) console.error()
+      if (err) return reject(err)
       return resolve({
         url: urlWithPathValue,
         method,
@@ -44,12 +39,13 @@ const executeCallGet = (url, method, query, path) => {
   })
 }
 
-const replaceUrlParam = (url, param) => {
-  const paramName = Object.keys(param)[0]
-  const paramValue = Object.values(param)[0]
-  // if empty param
-  if (!paramName || !paramValue) return url
-
-  // Replace {x} with values
-  return url.replace(`{${paramName}}`, paramValue)
+const replaceUrlParam = (url, paths) => {
+  return Object.keys(paths).reduce((url, path) => {
+    const paramName = path
+    const paramValue = paths[path]
+    // if empty param
+    if (!paramName || !paramValue) return url
+    // Replace {x} with values
+    return url.replace(`{${paramName}}`, paramValue)
+  }, url)
 }

@@ -9,7 +9,7 @@ var _superagent = require('superagent');
 
 var _superagent2 = _interopRequireDefault(_superagent);
 
-var _request = require('../request');
+var _params = require('./params');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22,27 +22,22 @@ const callEndpoint = exports.callEndpoint = (servername, endpoint) => {
       const method = endpoint.method;
       const url = `${servername}${api}`;
       const wireSwagModel = endpoint.wireSwagModel;
-      const params = endpoint.param;
+      const wireSwagInput = endpoint.wireSwagInput;
 
       // // All will be the same length
-      const { queryParams, pathParams } = (0, _request.getParamsValues)(params, wireSwagModel);
+      const params = (0, _params.getParams)(wireSwagModel, wireSwagInput);
 
-      // If parameter exists, then execute with each different values
-      if (queryParams.length > 0) {
-        const pCall = queryParams.map((() => {
-          var _ref2 = _asyncToGenerator(function* (queryParam, index) {
-            const pathParam = pathParams[index];
-            return executeCallGet(url, method, queryParam, pathParam);
-          });
+      const pCall = params.map((() => {
+        var _ref2 = _asyncToGenerator(function* (param) {
+          const { query, path, body } = param;
+          return executeCallGet(url, method, query, path, body);
+        });
 
-          return function (_x3, _x4) {
-            return _ref2.apply(this, arguments);
-          };
-        })());
-        resolve((yield Promise.all(pCall)));
-      } else {
-        resolve(executeCallGet(url, method));
-      }
+        return function (_x3) {
+          return _ref2.apply(this, arguments);
+        };
+      })());
+      resolve((yield Promise.all(pCall)));
     });
 
     return function (_x, _x2) {
@@ -51,14 +46,14 @@ const callEndpoint = exports.callEndpoint = (servername, endpoint) => {
   })());
 };
 
-const executeCallGet = (url, method, query, path) => {
+const executeCallGet = (url, method, query, path, body) => {
   const urlWithPathValue = path ? replaceUrlParam(url, path) : url;
   return new Promise((resolve, reject) => {
     const req = _superagent2.default.get(urlWithPathValue);
     if (query) req.query(query);
     req.set('Accept', 'application/json');
     req.end((err, res) => {
-      if (err) console.error();
+      if (err) return reject(err);
       return resolve({
         url: urlWithPathValue,
         method,
@@ -70,12 +65,13 @@ const executeCallGet = (url, method, query, path) => {
   });
 };
 
-const replaceUrlParam = (url, param) => {
-  const paramName = Object.keys(param)[0];
-  const paramValue = Object.values(param)[0];
-  // if empty param
-  if (!paramName || !paramValue) return url;
-
-  // Replace {x} with values
-  return url.replace(`{${paramName}}`, paramValue);
+const replaceUrlParam = (url, paths) => {
+  return Object.keys(paths).reduce((url, path) => {
+    const paramName = path;
+    const paramValue = paths[path];
+    // if empty param
+    if (!paramName || !paramValue) return url;
+    // Replace {x} with values
+    return url.replace(`{${paramName}}`, paramValue);
+  }, url);
 };

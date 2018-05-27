@@ -2,9 +2,9 @@
   "name": "wireswag",
   "version": "1.0.0",
   "description": "Create wiremock files and mappping from swagger file",
-  "main": "bin/index.js",
+  "main": ".bin/index.js",
   "bin": {
-    "wireswag": "bin/index.js"
+    "wireswag": ".bin/index.js"
   },
   "scripts": {
     "test": "jest",
@@ -13,8 +13,8 @@
     "wireswag": "nodemon --exec babel-node -- src/index.js",
     "start-mock-server": "json-server --watch ./db/mock.json -p 4000",
     "dev": "yarn run wireswag -s ./samples/swagger.yml -g localhost:4000",
-    "clean": "rm -rf ./bin",
-    "build": "babel src -d bin"
+    "clean": "rm -rf ./.bin",
+    "build": "babel src -d ./.bin"
   },
   "repository": {
     "type": "git",
@@ -56,7 +56,7 @@
       "jest"
     ],
     "ignore": [
-      "/bin/"
+      "/.bin/"
     ]
   }
 }
