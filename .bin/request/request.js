@@ -48,6 +48,7 @@ const callEndpoint = exports.callEndpoint = (servername, endpoint) => {
 
 const executeCallGet = (url, method, query, path, body) => {
   const urlWithPathValue = path ? replaceUrlParam(url, path) : url;
+  console.log(urlWithPathValue);
   return new Promise((resolve, reject) => {
     const req = _superagent2.default.get(urlWithPathValue);
     if (query) req.query(query);

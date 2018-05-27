@@ -1,0 +1,18 @@
+{
+  "error": {
+    "errno": "EPROTO",
+    "code": "EPROTO",
+    "syscall": "write"
+  },
+  "url": "https://localhost:10010/api/products/123",
+  "time": 33,
+  "request": {
+    "method": "GET",
+    "headers": {
+      "connection": "close",
+      "accept": "application/json",
+      "user-agent": "node-superagent/3.8.3",
+      "host": "localhost:10010"
+    }
+  }
+}
